@@ -56,10 +56,17 @@ SPECS = {
 "org.storage.stratis1.pool" :
 """
 <interface name="org.storage.stratis1.pool">
-<method name="AddDevs">
+<method name="AddCacheDevs">
 <arg name="force" type="b" direction="in"/>
 <arg name="devices" type="as" direction="in"/>
-<arg name="results" type="as" direction="out"/>
+<arg name="results" type="ao" direction="out"/>
+<arg name="return_code" type="q" direction="out"/>
+<arg name="return_string" type="s" direction="out"/>
+</method>
+<method name="AddDataDevs">
+<arg name="force" type="b" direction="in"/>
+<arg name="devices" type="as" direction="in"/>
+<arg name="results" type="ao" direction="out"/>
 <arg name="return_code" type="q" direction="out"/>
 <arg name="return_string" type="s" direction="out"/>
 </method>
@@ -81,9 +88,17 @@ SPECS = {
 <arg name="return_code" type="q" direction="out"/>
 <arg name="return_string" type="s" direction="out"/>
 </method>
-<property name="Name" type="s" access="read">
-<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
-</property>
+<method name="SnapshotFilesystem">
+<arg name="origin" type="o" direction="in"/>
+<arg name="snapshot_name" type="s" direction="in"/>
+<arg name="result" type="o" direction="out"/>
+<arg name="return_code" type="q" direction="out"/>
+<arg name="return_string" type="s" direction="out"/>
+</method>
+<property name="ExtendState" type="q" access="read"/>
+<property name="Name" type="s" access="read"/>
+<property name="SpaceState" type="q" access="read"/>
+<property name="State" type="q" access="read"/>
 <property name="TotalPhysicalSize" type="s" access="read">
 <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
 </property>
@@ -104,14 +119,54 @@ SPECS = {
 <arg name="return_code" type="q" direction="out"/>
 <arg name="return_string" type="s" direction="out"/>
 </method>
+<property name="Created" type="s" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+</property>
 <property name="Devnode" type="s" access="read">
 <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
 </property>
-<property name="Name" type="s" access="read">
+<property name="Name" type="s" access="read"/>
+<property name="Pool" type="o" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+</property>
+<property name="Used" type="s" access="read">
 <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+</property>
+<property name="Uuid" type="s" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+</property>
+</interface>
+""",
+"org.storage.stratis1.blockdev" :
+"""
+<interface name="org.storage.stratis1.blockdev">
+<method name="SetUserInfo">
+<arg name="id" type="s" direction="in"/>
+<arg name="changed" type="b" direction="out"/>
+<arg name="return_code" type="q" direction="out"/>
+<arg name="return_string" type="s" direction="out"/>
+</method>
+<property name="Devnode" type="s" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+</property>
+<property name="HardwareInfo" type="s" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+</property>
+<property name="InitializationTime" type="t" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
 </property>
 <property name="Pool" type="o" access="read">
 <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+</property>
+<property name="State" type="q" access="read"/>
+<property name="Tier" type="q" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+</property>
+<property name="TotalPhysicalSize" type="s" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
+</property>
+<property name="UserInfo" type="s" access="read">
+<annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="false"/>
 </property>
 <property name="Uuid" type="s" access="read">
 <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
